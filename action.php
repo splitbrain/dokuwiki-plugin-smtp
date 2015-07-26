@@ -80,10 +80,10 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
         if(!$ok && $this->getConf('debug')) {
             $log = array();
             foreach($logger->getLog() as $line) {
-                $log[] = $line[1];
+                $log[] = trim($line[1]);
             }
-            $log = join("\n", $log);
-            msg('SMTP log:<br /><pre>'.hsc($log).'</pre>',-1);
+            $log = trim(join("\n", $log));
+            msg('SMTP log:<br /><pre>'.hsc($log).'</pre><b>Above may contain passwords - do not post online!</b>',-1);
         }
 
         // finish event handling
