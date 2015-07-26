@@ -11,7 +11,18 @@ if(!defined('DOKU_INC')) die();
 
 class helper_plugin_smtp extends DokuWiki_Plugin {
 
-
+    /**
+     * Return a string usable as EHLO message
+     *
+     * @param string $ehlo configured EHLO (ovverrides automatic detection)
+     * @return string
+     */
+    static public function getEHLO($ehlo='') {
+        if(empty($ehlo)) {
+            $ehlo = !empty($_SERVER["SERVER_ADDR"]) ? "[" . $_SERVER["SERVER_ADDR"] . "]" : "localhost.localdomain";
+        }
+        return $ehlo;
+    }
 
 }
 
