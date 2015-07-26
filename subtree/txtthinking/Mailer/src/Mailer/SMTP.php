@@ -47,6 +47,11 @@ class SMTP
     protected $secure;
 
     /**
+     * EHLO message
+     */
+    protected $ehlo;
+
+    /**
      * smtp username
      */
     protected $username;
@@ -101,7 +106,9 @@ class SMTP
         $this->host = $host;
         $this->port = $port;
         $this->secure = $secure;
+        if(!$this->ehlo) $this->ehlo = $host;
         $this->logger && $this->logger->debug("Set: the server");
+
         return $this;
     }
 
@@ -115,6 +122,16 @@ class SMTP
         $this->username = $username;
         $this->password = $password;
         $this->logger && $this->logger->debug("Set: the auth");
+        return $this;
+    }
+
+    /**
+     * set the EHLO message
+     * @param $ehlo
+     * @return $this
+     */
+    public function setEhlo($ehlo){
+        $this->ehlo = $ehlo;
         return $this;
     }
 
@@ -195,7 +212,7 @@ class SMTP
      * @throws SMTPException
      */
     protected function ehlo(){
-        $in = "EHLO " . $this->host . $this->CRLF;
+        $in = "EHLO " . $this->ehlo . $this->CRLF;
         $code = $this->pushStack($in);
         if ($code !== '250'){
             throw new CodeException('250', $code, array_pop($this->resultStack));
