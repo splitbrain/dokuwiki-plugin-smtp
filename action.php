@@ -19,8 +19,8 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
      */
     public function register(Doku_Event_Handler $controller) {
 
-       $controller->register_hook('MAIL_MESSAGE_SEND', 'FIXME', $this, 'handle_mail_message_send');
-   
+       $controller->register_hook('MAIL_MESSAGE_SEND', 'BEFORE', $this, 'handle_mail_message_send');
+
     }
 
     /**
@@ -33,6 +33,23 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
      */
 
     public function handle_mail_message_send(Doku_Event &$event, $param) {
+        require_once __DIR__ . '/loader.php';
+
+        /** @var Mailer $mailer Our Mailer with all the data */
+        $mailer = $event->data['mail'];
+        $to     = $event->data['to'].','.$event->data['cc'].','.$event->data['bcc'];
+        $from   = $event->data['from'];
+
+        $message = new \splitbrain\dokuwiki\plugin\smtp\Message(
+            $from,
+            $to,
+            $mailer->dump()
+        );
+
+        $smtp = new \Tx\Mailer\SMTP();
+        $smtp->setServer('localhost', 2525, null);
+
+        $smtp->send($message);
     }
 
 }

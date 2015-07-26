@@ -38,9 +38,11 @@ class admin_plugin_smtp extends DokuWiki_Admin_Plugin {
         ptln('<h1>'.$this->getLang('menu').'</h1>');
 
 
-        require_once __DIR__.'/Mailer/Mailer/SMTP.php';
-        $mailer = new Tx\Mailer\SMTP();
-        $mailer->setServer()
+        require_once __DIR__ . '/loader.php';
+
+
+        $logger = new \splitbrain\dokuwiki\plugin\smtp\Logger();
+        $mailer = new Tx\Mailer\SMTP($logger);
 
     }
 }
