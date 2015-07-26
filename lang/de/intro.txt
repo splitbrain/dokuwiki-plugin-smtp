@@ -1,0 +1,5 @@
+====== SwiftMail Test ======
+
+Auf dieser Seite kannst du eine Testmail von DokuWiki versenden. Diese kannst du verwenden um deine SwiftMail Konfiguration zu überprüfen.
+
+Füge die E-Mailaddressen der Empfänger in das Formular ein.

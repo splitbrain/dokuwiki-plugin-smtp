@@ -1,0 +1,5 @@
+====== SwiftMail Test ======
+
+Denne side tillader dig at udløse sending af en test-mail i DokuWiki. Du kan bruge den til at kontrollere om du har konfigureret SwiftMail plugin korrekt.
+
+Angiv modtagers email-adresse i formularen herunder.

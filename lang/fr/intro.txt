@@ -1,0 +1,5 @@
+====== Test de SwiftMail ======
+
+Cette page vous permet de déclencher l'envoi d'un courriel de test depuis DokuWiki. Vous pouvez l'utiliser pour vérifier si SwiftMail est correctement configuré.
+
+Indiquez l'adresse email du destinataire dans le formulaire ci dessous.
