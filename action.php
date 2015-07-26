@@ -62,8 +62,9 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
                 $this->getConf('auth_pass')
             );
         }
-
-        $ehlo = helper_plugin_smtp::getEHLO($this->getConf('localdomain'));
+        $smtp->setEhlo(
+            helper_plugin_smtp::getEHLO($this->getConf('localdomain'))
+        );
 
 
         // send the message
