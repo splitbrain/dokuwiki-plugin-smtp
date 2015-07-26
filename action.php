@@ -37,12 +37,14 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
 
         /** @var Mailer $mailer Our Mailer with all the data */
         $mailer = $event->data['mail'];
-        $to     = $event->data['to'].','.$event->data['cc'].','.$event->data['bcc'];
+        $rcpt   = $mailer->cleanAddress($event->data['to']) . ',' .
+                  $mailer->cleanAddress($event->data['cc']) . ',' .
+                  $mailer->cleanAddress($event->data['bcc']);
         $from   = $event->data['from'];
 
         $message = new \splitbrain\dokuwiki\plugin\smtp\Message(
             $from,
-            $to,
+            $rcpt,
             $mailer->dump()
         );
 
