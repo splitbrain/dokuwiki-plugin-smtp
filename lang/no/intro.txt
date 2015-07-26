@@ -1,5 +1,5 @@
-====== SwiftMail Testing ======
+====== SMTP Testing ======
 
-Denne siden gjør at du kan sende en test epost fra DokuWiki. Bruk den til å sjekke om du har installert SwiftMail plugin riktig.
+Denne siden gjør at du kan sende en test epost fra DokuWiki. Bruk den til å sjekke om du har installert SMTP plugin riktig.
 
 Sett inn mottakers epostadresse i skjemaet nedenfor.

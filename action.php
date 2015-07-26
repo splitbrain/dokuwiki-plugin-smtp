@@ -83,7 +83,7 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
                 $log[] = $line[1];
             }
             $log = join("\n", $log);
-            msg('SwiftMailer log:<br /><pre>'.hsc($log).'</pre>',-1);
+            msg('SMTP log:<br /><pre>'.hsc($log).'</pre>',-1);
         }
 
         // finish event handling

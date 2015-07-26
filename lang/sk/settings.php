@@ -1,6 +1,6 @@
 <?php
 /**
- * Slovak language for the "swiftmail" DokuWiki plugin
+ * Slovak language for the "SMTP" DokuWiki plugin
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Martin Hanula <mh.ikar@gmail.com>
