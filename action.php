@@ -38,14 +38,15 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
         // prepare the message
         /** @var Mailer $mailer Our Mailer with all the data */
         $mailer = $event->data['mail'];
-        $rcpt   = $mailer->cleanAddress($event->data['to']) . ',' .
-                  $mailer->cleanAddress($event->data['cc']) . ',' .
-                  $mailer->cleanAddress($event->data['bcc']);
+        $body = $mailer->dump();  // this also prepares all internal variables of the mailer
+        $rcpt   = $event->data['to'] . ',' .
+                  $event->data['cc'] . ',' .
+                  $event->data['bcc'];
         $from   = $event->data['from'];
         $message = new \splitbrain\dokuwiki\plugin\smtp\Message(
             $from,
             $rcpt,
-            $mailer->dump()
+            $body
         );
 
         // prepare the SMTP communication lib
