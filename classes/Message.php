@@ -53,9 +53,9 @@ class Message extends \Tx\Mailer\Message {
         foreach($addresses as $addr) {
             // parse address
             if(preg_match('#(.*?)<(.*?)>#', $addr, $matches)) {
-                $rcpt[] = $matches[2];
+                $rcpt[] = trim($matches[2]);
             } else {
-                $rcpt[] = $addr;
+                $rcpt[] = trim($addr);
             }
         }
 
