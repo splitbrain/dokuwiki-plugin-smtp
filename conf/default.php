@@ -1,6 +1,6 @@
 <?php
 
-$conf['smtp_host'] = '';
+$conf['smtp_host'] = 'localhost';
 $conf['smtp_port'] = 25;
 $conf['smtp_ssl']  = '';
 
