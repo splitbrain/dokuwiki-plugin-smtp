@@ -1,5 +1,5 @@
-====== SMTP Testing ======
+====== SMTP-testing ======
 
-Denne siden gjør at du kan sende en test epost fra DokuWiki. Bruk den til å sjekke om du har installert SMTP plugin riktig.
+På denne siden kan du sende ut en test-e-post fra DokuWiki. Bruk denne for å sjekke om du har installert din SMTP-utvidelse riktig.
 
-Sett inn mottakers epostadresse i skjemaet nedenfor.
+Sett inn mottakers e-postadresse i skjemaet nedenfor.
