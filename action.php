@@ -72,8 +72,8 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
         try {
             $smtp->send($message);
             $ok = true;
-        } catch (Exception $e) {
-            msg('There was an unexpected problem communicating with SMTP: '.$e->getMessage(), -1);
+        } catch (Exception $e) {	
+            msg($this->getLang('unexpectedsmtp').$e->getMessage(), -1);
             $ok = false;
         }
 
@@ -84,7 +84,7 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
                 $log[] = trim($line[1]);
             }
             $log = trim(join("\n", $log));
-            msg('SMTP log:<br /><pre>'.hsc($log).'</pre><b>Above may contain passwords - do not post online!</b>',-1);
+            msg('SMTP log:<br /><pre>'.hsc($log).'</pre><b>'.$this->getLang('abovemaywarn').'</b>',-1);
         }
 
         // finish event handling
