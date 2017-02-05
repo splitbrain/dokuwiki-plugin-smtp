@@ -39,9 +39,9 @@ class admin_plugin_smtp extends DokuWiki_Admin_Plugin {
 
         // check result
         if($ok){
-            msg('Message was sent. SMTP seems to work.',1);
+            msg($this->getLang('sentok'),1);
         }else{
-            msg('Message wasn\'t sent. SMTP seems not to work properly.',-1);
+            msg($this->getLang('sentnok'),-1);
         }
     }
 
@@ -58,12 +58,12 @@ class admin_plugin_smtp extends DokuWiki_Admin_Plugin {
 
 
         $form = new Doku_Form(array());
-        $form->startFieldset('Testmail');
+        $form->startFieldset($this->getLang('testtitle'));
         $form->addHidden('send', 1);
-        $form->addElement(form_makeField('text', 'to', $INPUT->str('to'), 'To:', '', 'block'));
+        $form->addElement(form_makeField('text', 'to', $INPUT->str('to'), $this->getLang('to'), '', 'block'));
         $form->addElement(form_makeField('text', 'cc', $INPUT->str('cc'), 'Cc:', '', 'block'));
         $form->addElement(form_makeField('text', 'bcc', $INPUT->str('bcc'), 'Bcc:', '', 'block'));
-        $form->addElement(form_makeButton('submit', '', 'Send Email'));
+        $form->addElement(form_makeButton('submit', '', $this->getLang('sendemail')));
 
         $form->printForm();
     }
