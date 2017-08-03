@@ -31,8 +31,8 @@ class admin_plugin_smtp extends DokuWiki_Admin_Plugin {
         // send a mail
         $mail = new Mailer();
         if($INPUT->str('to')) $mail->to($INPUT->str('to'));
-        if($INPUT->str('cc')) $mail->to($INPUT->str('cc'));
-        if($INPUT->str('bcc')) $mail->to($INPUT->str('bcc'));
+        if($INPUT->str('cc')) $mail->cc($INPUT->str('cc'));
+        if($INPUT->str('bcc')) $mail->bcc($INPUT->str('bcc'));
         $mail->subject('DokuWiki says hello');
         $mail->setBody("Hi @USER@\n\nThis is a test from @DOKUWIKIURL@");
         $ok = $mail->send();
