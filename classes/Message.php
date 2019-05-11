@@ -85,7 +85,7 @@ class Message extends \Tx\Mailer\Message {
                 break; // header removed, we're done
             }
         }
-        $body = join("\n", $lines);
+        $body = join("\r\n", $lines);
 
         return $body . $this->CRLF . $this->CRLF . "." . $this->CRLF;
     }
