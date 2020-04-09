@@ -2,9 +2,8 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
  * @author Hideaki SAWADA <chuno@live.jp>
- * @author hideaki SAWADA <chuno@live.jp>
  */
 $lang['smtp_host']             = '送信 SMTP サーバー';
 $lang['smtp_port']             = 'SMTP サーバーのポート。通常は 25。SSL の場合は 465。';
