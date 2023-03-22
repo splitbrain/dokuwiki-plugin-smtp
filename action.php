@@ -55,7 +55,8 @@ class action_plugin_smtp extends DokuWiki_Action_Plugin {
         $smtp->setServer(
             $this->getConf('smtp_host'),
             $this->getConf('smtp_port'),
-            $this->getConf('smtp_ssl')
+            $this->getConf('smtp_ssl'),
+            $this->getConf('smtp_ssl_allow_insecure')
         );
         if($this->getConf('auth_user')){
             $smtp->setAuth(

@@ -8,6 +8,8 @@ $lang['smtp_ssl_o_']   = '无';
 $lang['smtp_ssl_o_ssl']   = 'SSL';
 $lang['smtp_ssl_o_tls']   = 'TLS';
 
+$lang['smtp_ssl_allow_insecure'] = '允许不安全的SSL';
+
 $lang['auth_user'] = '如果需要认证，在这里输入您的用户名。';
 $lang['auth_pass'] = '对应上面用户名的密码。';
 
