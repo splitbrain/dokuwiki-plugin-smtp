@@ -1,0 +1,5 @@
+====== Testando o SMTP ======
+
+Esta página permite-lhe começar a enviar uma mensagem de teste no DokuWiki. Você pode usá-lo para verificar se o módulo do programa SMTP está configurado corretamente.
+
+Registre os endereços de e-mail de recebimento da seguinte maneira.
