@@ -51,15 +51,19 @@ class Message extends \Tx\Mailer\Message {
         // We need the mail only part of all recipients
         $addresses = explode(',', $this->rcpt);
         foreach($addresses as $addr) {
-            // parse address
+            // Parse address
+            $parsedAddr = '';
             if(preg_match('#(.*?)<(.*?)>#', $addr, $matches)) {
-                $rcpt[trim($matches[2])] = '';
+                $parsedAddr = trim($matches[2]);
             } else {
-                $rcpt[trim($addr)] = '';
+                $parsedAddr = trim($addr);
+            }
+            // Insert only non-empty address
+            if (!empty($parsedAddr)) {
+                $rcpt[$parsedAddr] = '';
             }
         }
 
-        $rcpt = array_filter($rcpt);
         return $rcpt;
     }
 
