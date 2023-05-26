@@ -59,6 +59,7 @@ class Message extends \Tx\Mailer\Message {
             }
         }
 
+        $rcpt = array_filter($rcpt);
         return $rcpt;
     }
 
