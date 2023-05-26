@@ -41,7 +41,7 @@ class Message extends \Tx\Mailer\Message {
     }
 
     /**
-     * Get a list of all recipients (mail only part)
+     * Get a list of all recipients (array of email => name, name is omitted)
      *
      * @return array
      */
@@ -53,14 +53,12 @@ class Message extends \Tx\Mailer\Message {
         foreach($addresses as $addr) {
             // parse address
             if(preg_match('#(.*?)<(.*?)>#', $addr, $matches)) {
-                $rcpt[] = trim($matches[2]);
+                $rcpt[trim($matches[2])] = '';
             } else {
-                $rcpt[] = trim($addr);
+                $rcpt[trim($addr)] = '';
             }
         }
 
-        $rcpt = array_filter($rcpt);
-        $rcpt = array_unique($rcpt);
         return $rcpt;
     }
 
