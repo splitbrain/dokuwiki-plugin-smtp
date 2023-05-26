@@ -1,4 +1,4 @@
-<?php namespace Tx\Mailer;
+<?php
 /***************************************************\
  *
  *  Mailer (https://github.com/txthinking/Mailer)
@@ -16,6 +16,8 @@
  *  Under the MIT license.
  *
  \***************************************************/
+namespace Tx\Mailer;
+
 class Message
 {
     /**
@@ -42,6 +44,16 @@ class Message
      * to email
      */
     protected $to = array();
+
+    /**
+     * cc email
+     */
+    protected $cc = array();
+
+    /**
+     * bcc email
+     */
+    protected $bcc = array();
 
     /**
      * mail subject
@@ -84,6 +96,28 @@ class Message
      */
     protected $CRLF = "\r\n";
 
+
+    /**
+     * Address for the reply-to header
+     * @var string
+     */
+    protected $replyToName;
+
+    /**
+     * Address for the reply-to header
+     * @var string
+     */
+    protected $replyToEmail;
+
+
+    public function setReplyTo($name, $email)
+    {
+        $this->replyToName = $name;
+        $this->replyToEmail = $email;
+        return $this;
+    }
+
+
     /**
      * set mail from
      * @param string $name
@@ -112,24 +146,38 @@ class Message
     }
 
     /**
-     * set mail receiver
-     * @param string $name
-     * @param string $email
-     * @return $this
-     */
-    public function setTo($name, $email){
-        $this->to[$name] = $email;
-        return $this;
-    }
-
-    /**
      * add mail receiver
      * @param string $name
      * @param string $email
      * @return $this
      */
-    public function addTo($name, $email){
-        $this->to[$name] = $email;
+    public function addTo($name, $email)
+    {
+        $this->to[$email] = $name;
+        return $this;
+    }
+
+    /**
+     * add cc mail receiver
+     * @param string $name
+     * @param string $email
+     * @return $this
+     */
+    public function addCc($name, $email)
+    {
+        $this->cc[$email] = $name;
+        return $this;
+    }
+
+    /**
+     * add bcc mail receiver
+     * @param string $name
+     * @param string $email
+     * @return $this
+     */
+    public function addBcc($name, $email)
+    {
+        $this->bcc[$email] = $name;
         return $this;
     }
 
@@ -138,7 +186,8 @@ class Message
      * @param string $subject
      * @return $this
      */
-    public function setSubject($subject){
+    public function setSubject($subject)
+    {
         $this->subject = $subject;
         return $this;
     }
@@ -148,7 +197,8 @@ class Message
      * @param string $body
      * @return $this
      */
-    public function setBody($body){
+    public function setBody($body)
+    {
         $this->body = $body;
         return $this;
     }
@@ -159,18 +209,8 @@ class Message
      * @param $path
      * @return $this
      */
-    public function setAttachment($name, $path){
-        $this->attachment[$name] = $path;
-        return $this;
-    }
-
-    /**
-     * add mail attachment
-     * @param $name
-     * @param $path
-     * @return $this
-     */
-    public function addAttachment($name, $path){
+    public function addAttachment($name, $path)
+    {
         $this->attachment[$name] = $path;
         return $this;
     }
@@ -219,6 +259,22 @@ class Message
     /**
      * @return mixed
      */
+    public function getCc()
+    {
+        return $this->cc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBcc()
+    {
+        return $this->bcc;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getSubject()
     {
         return $this->subject;
@@ -244,24 +300,65 @@ class Message
      * Create mail header
      * @return $this
      */
-    protected function createHeader(){
+    protected function createHeader()
+    {
         $this->header['Date'] = date('r');
 
-        if(!empty($this->fakeFromEmail)){
-            $this->header['Return-Path'] = $this->fakeFromEmail;
-            $this->header['From'] = $this->fakeFromName . " <" . $this->fakeFromEmail . ">";
-        } else{
-            $this->header['Return-Path'] = $this->fromEmail;
-            $this->header['From'] = $this->fromName . " <" . $this->fromEmail .">";
+        $fromName = "";
+        $fromEmail = $this->fromEmail;
+        if(!empty($this->fromName)){
+            $fromName = sprintf("=?utf-8?B?%s?= ", base64_encode($this->fromName));
         }
+        if(!empty($this->fakeFromEmail)){
+            if(!empty($this->fakeFromName)){
+                $fromName = sprintf("=?utf-8?B?%s?= ", base64_encode($this->fakeFromName));
+            }
+            $fromEmail = $this->fakeFromEmail;
+        }
+        $this->header['Return-Path'] = $fromEmail;
+        $this->header['From'] = $fromName . "<" . $fromEmail .">";
 
         $this->header['To'] = '';
-        foreach ($this->to as $toName => $toEmail) {
-            $this->header['To'] .= $toName . " <" . $toEmail . ">, ";
+        foreach ($this->to as $toEmail => $toName) {
+            if(!empty($toName)){
+                $toName = sprintf("=?utf-8?B?%s?= ", base64_encode($toName));
+            }
+            $this->header['To'] .= $toName . "<" . $toEmail . ">, ";
         }
         $this->header['To'] = substr($this->header['To'], 0, -2);
-        $this->header['Subject'] = $this->subject;
-        $this->header['Message-ID'] = '<' . md5('TX'.md5(time()).uniqid()) . '@' . $this->fromEmail . '>';
+        $this->header['Cc'] = '';
+        foreach ($this->cc as $toEmail => $toName) {
+            if(!empty($toName)){
+                $toName = sprintf("=?utf-8?B?%s?= ", base64_encode($toName));
+            }
+            $this->header['Cc'] .= $toName . "<" . $toEmail . ">, ";
+        }
+        $this->header['Cc'] = substr($this->header['Cc'], 0, -2);
+        $this->header['Bcc'] = '';
+        foreach ($this->bcc as $toEmail => $toName) {
+            if(!empty($toName)){
+                $toName = sprintf("=?utf-8?B?%s?= ", base64_encode($toName));
+            }
+            $this->header['Bcc'] .= $toName . "<" . $toEmail . ">, ";
+        }
+        $this->header['Bcc'] = substr($this->header['Bcc'], 0, -2);
+
+        $replyToName = "";
+        if(!empty($this->replyToEmail)){
+            if(!empty($this->replyToName)){
+                $replyToName = sprintf("=?utf-8?B?%s?= ", base64_encode($this->replyToName));
+            }
+            $this->header['Reply-To'] = $replyToName . "<" . $this->replyToEmail . ">";
+        }
+
+        if(empty($this->subject)){
+            $subject = '';
+        }else{
+            $subject = sprintf("=?utf-8?B?%s?= ", base64_encode($this->subject));
+        }
+        $this->header['Subject'] = $subject;
+
+        $this->header['Message-ID'] = '<' . md5(uniqid()) . '@' . $this->fromEmail . '>';
         $this->header['X-Priority'] = '3';
         $this->header['X-Mailer'] = 'Mailer (https://github.com/txthinking/Mailer)';
         $this->header['MIME-Version'] = '1.0';
@@ -278,7 +375,8 @@ class Message
      *
      * @return string
      */
-    protected function createBody(){
+    protected function createBody()
+    {
         $in = "";
         $in .= "Content-Type: multipart/alternative; boundary=\"$this->boundaryAlternative\"" . $this->CRLF;
         $in .= $this->CRLF;
@@ -303,7 +401,8 @@ class Message
      *
      * @return string
      */
-    protected function createBodyWithAttachment(){
+    protected function createBodyWithAttachment()
+    {
         $in = "";
         $in .= $this->CRLF;
         $in .= $this->CRLF;
@@ -338,7 +437,8 @@ class Message
         return $in;
     }
 
-    public function toString(){
+    public function toString()
+    {
         $in = '';
         $this->createHeader();
         foreach ($this->header as $key => $value) {
