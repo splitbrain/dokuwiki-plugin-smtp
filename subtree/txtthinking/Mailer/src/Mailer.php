@@ -1,4 +1,4 @@
-<?php namespace Tx;
+<?php
 /***************************************************\
  *
  *  Mailer (https://github.com/txthinking/Mailer)
@@ -16,6 +16,7 @@
  *  Under the MIT license.
  *
  \***************************************************/
+namespace Tx;
 
 use Psr\Log\LoggerInterface;
 use \Tx\Mailer\Message;
@@ -29,7 +30,8 @@ use \Tx\Mailer\SMTP;
  *
  * @package Tx
  */
-class Mailer{
+class Mailer
+{
     /**
      * SMTP Class
      * @var SMTP
@@ -44,8 +46,10 @@ class Mailer{
 
     /**
      * construct function
+     * @param LoggerInterface $logger
      */
-    public function __construct(LoggerInterface $logger=null){
+    public function __construct(LoggerInterface $logger=null)
+    {
         $this->smtp = new SMTP($logger);
         $this->message = new Message();
     }
@@ -54,10 +58,11 @@ class Mailer{
      * set server and port
      * @param string $host server
      * @param int $port port
-     * @param string $secure ssl tls
+     * @param string $secure ssl tls tlsv1.0 tlsv1.1 tlsv1.2
      * @return $this
      */
-    public function setServer($host, $port, $secure=null){
+    public function setServer($host, $port, $secure=null)
+    {
         $this->smtp->setServer($host, $port, $secure);
         return $this;
     }
@@ -68,8 +73,20 @@ class Mailer{
      * @param string $password
      * @return $this
      */
-    public function setAuth($username, $password){
+    public function setAuth($username, $password)
+    {
         $this->smtp->setAuth($username, $password);
+        return $this;
+    }
+
+    /**
+     * auth oauthbearer with server
+     * @param string $accessToken
+     * @return $this
+     */
+    public function setOAuth($accessToken)
+    {
+        $this->smtp->setOAuth($accessToken);
         return $this;
     }
 
@@ -79,7 +96,8 @@ class Mailer{
      * @param string $email
      * @return $this
      */
-    public function setFrom($name, $email){
+    public function setFrom($name, $email)
+    {
         $this->message->setFrom($name, $email);
         return $this;
     }
@@ -90,19 +108,9 @@ class Mailer{
      * @param string $email
      * @return $this
      */
-    public function setFakeFrom($name, $email){
+    public function setFakeFrom($name, $email)
+    {
         $this->message->setFakeFrom($name, $email);
-        return $this;
-    }
-
-    /**
-     * set mail receiver
-     * @param string $name
-     * @param string $email
-     * @return $this
-     */
-    public function setTo($name, $email){
-        $this->message->addTo($name, $email);
         return $this;
     }
 
@@ -112,8 +120,33 @@ class Mailer{
      * @param string $email
      * @return $this
      */
-    public function addTo($name, $email){
+    public function addTo($name, $email)
+    {
         $this->message->addTo($name, $email);
+        return $this;
+    }
+
+    /**
+     * add cc mail receiver
+     * @param string $name
+     * @param string $email
+     * @return $this
+     */
+    public function addCc($name, $email)
+    {
+        $this->message->addCc($name, $email);
+        return $this;
+    }
+
+    /**
+     * add bcc mail receiver
+     * @param string $name
+     * @param string $email
+     * @return $this
+     */
+    public function addBcc($name, $email)
+    {
+        $this->message->addBcc($name, $email);
         return $this;
     }
 
@@ -122,7 +155,8 @@ class Mailer{
      * @param string $subject
      * @return $this
      */
-    public function setSubject($subject){
+    public function setSubject($subject)
+    {
         $this->message->setSubject($subject);
         return $this;
     }
@@ -132,20 +166,9 @@ class Mailer{
      * @param string $body
      * @return $this
      */
-    public function setBody($body){
+    public function setBody($body)
+    {
         $this->message->setBody($body);
-        return $this;
-    }
-
-    /**
-     * set mail attachment
-     * @param $name
-     * @param $path
-     * @return $this
-     * @internal param string $attachment
-     */
-    public function setAttachment($name, $path){
-        $this->message->addAttachment($name, $path);
         return $this;
     }
 
@@ -154,10 +177,22 @@ class Mailer{
      * @param $name
      * @param $path
      * @return $this
-     * @internal param string $attachment
      */
-    public function addAttachment($name, $path){
+    public function addAttachment($name, $path)
+    {
         $this->message->addAttachment($name, $path);
+        return $this;
+    }
+
+    /**
+     * set mail reply-to
+     * @param string $name
+     * @param string $email
+     * @return $this
+     */
+    public function setReplyTo($name, $email)
+    {
+        $this->message->setReplyTo($name, $email);
         return $this;
     }
 
@@ -165,7 +200,8 @@ class Mailer{
      *  Send the message...
      * @return boolean
      */
-    public function send(){
+    public function send()
+    {
         return $this->smtp->send($this->message);
     }
 

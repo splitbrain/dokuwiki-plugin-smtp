@@ -8,6 +8,8 @@ $lang['smtp_ssl_o_']      = 'none';
 $lang['smtp_ssl_o_ssl']   = 'SSL';
 $lang['smtp_ssl_o_tls']   = 'TLS';
 
+$lang['smtp_ssl_allow_insecure'] = 'Allow insecure SSL';
+
 $lang['auth_user'] = 'If authentication is required, put your user name here.';
 $lang['auth_pass'] = 'Password for the above user.';
 
