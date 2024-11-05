@@ -1,5 +1,5 @@
-====== SMTP Testing ======
+====== Thử nghiệm SMTP ======
 
-This page allows you to trigger sending a test mail in DokuWiki. You can use it to check if you configured the SMTP plugin correctly.
+Trang này cho phép bạn kích hoạt gửi thư kiểm tra trong DokuWiki. Bạn có thể sử dụng nó để kiểm tra xem bạn đã định cấu hình đúng tiện ích plugin SMTP chưa.
 
-Give recipient's email addresses in the form below.
+Cung cấp địa chỉ email của người nhận trong mẫu dưới đây.
