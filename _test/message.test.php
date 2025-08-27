@@ -8,7 +8,7 @@
  */
 class message_plugin_smtp_test extends DokuWikiTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         require_once __DIR__ . '/../loader.php';
