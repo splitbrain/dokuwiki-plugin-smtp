@@ -1,0 +1,5 @@
+====== Testovanie SMTP ======
+
+Táto stránka umožňuje odoslať testovací e-mail z DokuWiki. Môžete ňou overiť, či máte SMTP plugin nastavený správne.
+
+Do formulára nižšie zadajte e-mailové adresy príjemcov.
