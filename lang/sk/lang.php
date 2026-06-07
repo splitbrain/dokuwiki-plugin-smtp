@@ -5,5 +5,5 @@
  *
  * @author Wizzard <wizzardsk@gmail.com>
  */
-$lang['menu']                  = 'Skontrolovať konfiguráciu SMTP';
-$lang['nofrom']                = 'Nemáte nastavenú voľbu \'mailfrom\'. Odosielanie pošty pravdepodobne zlyhá.';
+$lang['menu']                  = 'Kontrola nastavenia SMTP';
+$lang['nofrom']                = 'Nemáte nastavenú voľbu \'mailfrom\'. Odosielanie e-mailov pravdepodobne zlyhá.';
