@@ -1,0 +1,15 @@
+.plugin_smtp_admin {
+    label {
+        display: flex;
+        gap: 1em;
+        margin-bottom: 1em;
+
+        > span {
+            flex: 1;
+            text-align: right;
+        }
+        > input {
+            flex: 2;
+        }
+    }
+}

@@ -11,16 +11,17 @@ use Psr\Log\LoggerInterface;
  *
  * @package splitbrain\dokuwiki\plugin\smtp
  */
-class Logger implements LoggerInterface {
-
-    protected $log = array();
+class Logger implements LoggerInterface
+{
+    protected $log = [];
 
     /**
      * Get all log messages
      *
      * @return array
      */
-    public function getLog() {
+    public function getLog()
+    {
         return $this->log;
     }
 
@@ -29,10 +30,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function emergency($message, array $context = array())
+    public function emergency($message, array $context = [])
     {
         $this->log('emergency', $message, $context);
     }
@@ -45,10 +44,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function alert($message, array $context = array())
+    public function alert($message, array $context = [])
     {
         $this->log('alert', $message, $context);
     }
@@ -60,10 +57,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function critical($message, array $context = array())
+    public function critical($message, array $context = [])
     {
         $this->log('critical', $message, $context);
     }
@@ -74,10 +69,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function error($message, array $context = array())
+    public function error($message, array $context = [])
     {
         $this->log('error', $message, $context);
     }
@@ -90,10 +83,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function warning($message, array $context = array())
+    public function warning($message, array $context = [])
     {
         $this->log('warning', $message, $context);
     }
@@ -103,10 +94,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function notice($message, array $context = array())
+    public function notice($message, array $context = [])
     {
         $this->log('notice', $message, $context);
     }
@@ -118,10 +107,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function info($message, array $context = array())
+    public function info($message, array $context = [])
     {
         $this->log('info', $message, $context);
     }
@@ -131,10 +118,8 @@ class Logger implements LoggerInterface {
      *
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function debug($message, array $context = array())
+    public function debug($message, array $context = [])
     {
         $this->log('debug', $message, $context);
     }
@@ -145,11 +130,9 @@ class Logger implements LoggerInterface {
      * @param mixed $level
      * @param string $message
      * @param array $context
-     *
-     * @return null
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
-        $this->log[] = array($level, $message, $context);
+        $this->log[] = [$level, $message, $context];
     }
 }

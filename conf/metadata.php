@@ -10,4 +10,3 @@ $meta['auth_pass'] = array('password');
 $meta['localdomain'] = array('string');
 
 $meta['debug']     = array('onoff');
-

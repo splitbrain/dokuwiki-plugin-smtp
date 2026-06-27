@@ -1,0 +1,16 @@
+{
+    "require": {
+        "txthinking/mailer": "^2.0",
+        "psr/log": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "splitbrain\\dokuwiki\\plugin\\smtp\\": "classes/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        }
+    }
+}

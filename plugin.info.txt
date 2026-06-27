@@ -5,3 +5,4 @@ date   2025-08-27
 name   smtp plugin
 desc   Send mails via a configured SMTP server
 url    https://www.dokuwiki.org/plugin:smtp
+phpmin 8.2
