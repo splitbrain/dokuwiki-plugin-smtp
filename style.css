@@ -13,3 +13,16 @@
         }
     }
 }
+
+.plugin_smtp_oauth {
+    margin-bottom: 2em;
+
+    pre.plugin_smtp_redirect {
+        display: inline-block;
+        padding: .3em .6em;
+        user-select: all;
+    }
+    .plugin_smtp_connected {
+        font-weight: bold;
+    }
+}

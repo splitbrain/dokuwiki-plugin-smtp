@@ -72,6 +72,11 @@ class SMTP
     protected $oauthToken;
 
     /**
+     * oauth SASL mechanism to use for the access token (XOAUTH2 or OAUTHBEARER)
+     */
+    protected $oauthMethod = 'XOAUTH2';
+
+    /**
      * $this->CRLF
      * @var string
      */
@@ -138,14 +143,21 @@ class SMTP
     }
 
     /**
-     * auth oauthbearer with server
+     * auth with an OAuth 2.0 access token
+     *
+     * The mechanism defaults to XOAUTH2 which is what Google and Microsoft
+     * advertise for their SMTP servers. Pass OAUTHBEARER (RFC 7628) for servers
+     * that require that mechanism instead.
+     *
      * @param string $accessToken
+     * @param string $method XOAUTH2 or OAUTHBEARER
      * @return $this
      */
-    public function setOAuth($accessToken)
+    public function setOAuth($accessToken, $method = 'XOAUTH2')
     {
         $this->oauthToken = $accessToken;
-        $this->logger && $this->logger->debug("Set: the auth oauthbearer");
+        $this->oauthMethod = strtoupper($method);
+        $this->logger && $this->logger->debug("Set: the auth {$this->oauthMethod}");
         return $this;
     }
 
@@ -184,7 +196,11 @@ class SMTP
         if ($this->username !== null || $this->password !== null) {
             $this->authLogin();
         } elseif ($this->oauthToken !== null) {
-            $this->authOAuthBearer();
+            if ($this->oauthMethod === 'OAUTHBEARER') {
+                $this->authOAuthBearer();
+            } else {
+                $this->authXOAuth2();
+            }
         }
         $this->mailFrom()
             ->rcptTo()
