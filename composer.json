@@ -1,6 +1,6 @@
 {
     "require": {
-        "txthinking/mailer": "^2.0",
+        "txthinking/mailer": "dev-master",
         "psr/log": "^1.0"
     },
     "autoload": {

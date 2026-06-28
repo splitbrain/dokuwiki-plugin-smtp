@@ -47,6 +47,11 @@ class SMTP
     protected $secure;
 
     /**
+     * smtp allow insecure ssl
+     */
+    protected $allowInsecure;
+
+    /**
      * EHLO message
      */
     protected $ehlo;
@@ -103,14 +108,16 @@ class SMTP
      * set server and port
      * @param string $host server
      * @param int $port port
-     * @param string $secure ssl tls tlsv1.0 tlsv1.1 tlsv1.2
+     * @param string $secure ssl tls
+     * @param bool $allowInsecure skip certificate verification?
      * @return $this
      */
-    public function setServer($host, $port, $secure=null)
+    public function setServer($host, $port, $secure=null, $allowInsecure=null)
     {
         $this->host = $host;
         $this->port = $port;
         $this->secure = $secure;
+        $this->allowInsecure = (bool) $allowInsecure;
         if(!$this->ehlo) $this->ehlo = $host;
         $this->logger && $this->logger->debug("Set: the server");
         return $this;
@@ -197,11 +204,27 @@ class SMTP
     {
         $this->logger && $this->logger->debug("Connecting to {$this->host} at {$this->port}");
         $host = ($this->secure == 'ssl') ? 'ssl://' . $this->host : $this->host;
-        $this->smtp = @fsockopen($host, $this->port);
-        //set block mode
-        //    stream_set_blocking($this->smtp, 1);
+        // Create connection
+        $context = stream_context_create([]);
+        if ($this->allowInsecure) {
+            $context = stream_context_create([
+                'ssl' => [
+                    'security_level' => 0,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false
+                ]
+            ]);
+        }
+        $this->smtp = @stream_socket_client(
+            $host.':'.$this->port,
+            $error_code,
+            $error_message,
+            ini_get('default_socket_timeout'),
+            STREAM_CLIENT_CONNECT,
+            $context
+        );
         if (!$this->smtp){
-            throw new SMTPException("Could not open SMTP Port.");
+            throw new SMTPException("Could not open SMTP Port to $host:{$this->port}");
         }
         $code = $this->getCode();
         if ($code !== '220'){
@@ -230,22 +253,13 @@ class SMTP
             throw new CryptoException('Crypto type expected PHP 5.6 or greater');
         }
 
-        switch ($this->secure) {
-            case 'tlsv1.0':
-                $crypto_type = STREAM_CRYPTO_METHOD_TLSv1_0_CLIENT;
-                break;
-            case 'tlsv1.1':
-                $crypto_type = STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
-                break;
-            case 'tlsv1.2':
-                $crypto_type = STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
-                break;
-            default:
-                $crypto_type = STREAM_CRYPTO_METHOD_TLS_CLIENT;
-                break;
+        if ($this->allowInsecure) {
+            stream_context_set_option($this->smtp, 'ssl', 'verify_peer', false);
+            stream_context_set_option($this->smtp, 'ssl', 'verify_peer_name', false);
+            stream_context_set_option($this->smtp, 'ssl', 'allow_self_signed', true);
         }
 
-        if(!\stream_socket_enable_crypto($this->smtp, true, $crypto_type)) {
+        if(!\stream_socket_enable_crypto($this->smtp, true, STREAM_CRYPTO_METHOD_ANY_CLIENT)) {
             throw new CryptoException("Start TLS failed to enable crypto");
         }
         return $this;

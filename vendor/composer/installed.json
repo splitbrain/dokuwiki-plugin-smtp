@@ -55,28 +55,29 @@
         },
         {
             "name": "txthinking/mailer",
-            "version": "v2.0.1",
-            "version_normalized": "2.0.1.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/txthinking/Mailer.git",
-                "reference": "09013cf9dad3aac195f66ae5309e8c3343c018e9"
+                "reference": "616e58b81fd8aa6fd548d20929c9d53cf725a17c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/txthinking/Mailer/zipball/09013cf9dad3aac195f66ae5309e8c3343c018e9",
-                "reference": "09013cf9dad3aac195f66ae5309e8c3343c018e9",
+                "url": "https://api.github.com/repos/txthinking/Mailer/zipball/616e58b81fd8aa6fd548d20929c9d53cf725a17c",
+                "reference": "616e58b81fd8aa6fd548d20929c9d53cf725a17c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
-                "psr/log": "~1.0"
+                "php": ">=5.4",
+                "psr/log": "^1.0 || ^2.0 || ^3.0"
             },
             "require-dev": {
                 "monolog/monolog": "~1.13",
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "~8.5"
             },
-            "time": "2018-10-09T10:47:23+00:00",
+            "time": "2025-12-07T11:30:45+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "dist",
             "autoload": {
