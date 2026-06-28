@@ -22,6 +22,10 @@ use Mailer;
  * test suite which runs without the Mailpit service. When it is set the server must be
  * reachable, otherwise the test fails.
  *
+ * The STARTTLS test (smtp_allow_insecure) uses the same server, so that Mailpit must be
+ * started with --smtp-tls-cert/--smtp-tls-key to offer STARTTLS (a self-signed
+ * certificate is exactly what this test wants to exercise); otherwise it fails.
+ *
  * @group plugin_smtp
  * @group plugins
  */
@@ -111,6 +115,71 @@ class IntegrationTest extends DokuWikiTest
         // the body must have arrived intact
         $full = $this->apiGet('/api/v1/message/' . rawurlencode($message['ID']));
         $this->assertStringContainsString($bodyText, $full['Text']);
+    }
+
+    /**
+     * The smtp_allow_insecure option must control whether an untrusted STARTTLS
+     * certificate is accepted (issue #32).
+     *
+     * Against a Mailpit offering STARTTLS with a self-signed certificate, sending must
+     * fail while certificate verification is on (smtp_allow_insecure off) and succeed
+     * once verification is disabled (smtp_allow_insecure on).
+     */
+    public function testSendMailTlsAllowsInsecureCert(): void
+    {
+        // the same server and HTTP API as the plain test, just talked to over STARTTLS
+        global $conf;
+        $conf['plugin']['smtp']['smtp_ssl'] = 'tls';
+
+        // with certificate verification enabled the self-signed cert is rejected
+        $conf['plugin']['smtp']['smtp_allow_insecure'] = 0;
+        $rejectSubject = 'SMTP plugin TLS reject test ' . uniqid('', true);
+        $this->assertFalse(
+            $this->sendProbe($rejectSubject),
+            'Sending over STARTTLS with an untrusted certificate must fail when smtp_allow_insecure is off'
+        );
+        $this->assertNull(
+            $this->findMessageBySubject($rejectSubject),
+            'A message rejected during STARTTLS must not be delivered'
+        );
+
+        // disabling verification accepts the self-signed cert and delivers the mail
+        $conf['plugin']['smtp']['smtp_allow_insecure'] = 1;
+        $acceptSubject = 'SMTP plugin TLS insecure test ' . uniqid('', true);
+        $this->assertTrue(
+            $this->sendProbe($acceptSubject),
+            'Sending over STARTTLS with a self-signed certificate must succeed when smtp_allow_insecure is on'
+        );
+        $this->assertNotNull(
+            $this->findMessageBySubject($acceptSubject),
+            'The mail sent over insecure STARTTLS should show up in Mailpit'
+        );
+    }
+
+    /**
+     * Send a minimal mail through DokuWiki's Mailer and report whether it succeeded
+     *
+     * An untrusted certificate makes the mailer library emit a PHP SSL warning deep in
+     * the call stack; it is swallowed here so the test can observe the boolean send
+     * result rather than abort on the warning.
+     *
+     * @param string $subject unique subject for the probe mail
+     * @return bool whether the mail was sent successfully
+     */
+    protected function sendProbe(string $subject): bool
+    {
+        $mailer = new Mailer();
+        $mailer->from('Wiki Admin <wiki@example.com>');
+        $mailer->to('Jane Doe <jane@example.com>');
+        $mailer->subject($subject);
+        $mailer->setBody('STARTTLS integration probe.');
+
+        set_error_handler(static fn() => true);
+        try {
+            return (bool)$mailer->send();
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**

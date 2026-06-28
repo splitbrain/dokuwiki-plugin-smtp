@@ -7,10 +7,15 @@
 # are exported to the PHPUnit step through $GITHUB_ENV. Setting MAILPIT_HOST is what
 # enables the test - it then requires Mailpit to be reachable or fails.
 #
+# Mailpit is started with an auto-generated self-signed certificate (the "sans:"
+# syntax) so it offers STARTTLS. The smtp_allow_insecure test needs this and fails
+# (it does not skip) when the server does not speak TLS.
+#
 set -e
 
-# start Mailpit: SMTP on 1025, HTTP API/web UI on 8025
-docker run -d --name mailpit -p 1025:1025 -p 8025:8025 axllent/mailpit:latest
+# start Mailpit: SMTP on 1025, HTTP API/web UI on 8025, STARTTLS with a self-signed cert
+docker run -d --name mailpit -p 1025:1025 -p 8025:8025 axllent/mailpit:latest \
+    --smtp-tls-cert sans:localhost --smtp-tls-key sans:localhost
 
 # wait until Mailpit is ready to accept connections
 echo "Waiting for Mailpit to become ready..."

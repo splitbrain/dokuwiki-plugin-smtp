@@ -8,6 +8,8 @@ $lang['smtp_ssl_o_']      = 'none';
 $lang['smtp_ssl_o_ssl']   = 'SSL';
 $lang['smtp_ssl_o_tls']   = 'TLS';
 
+$lang['smtp_allow_insecure'] = 'Accept invalid or self-signed server certificates? Only enable this if you trust the SMTP server despite an untrusted certificate.';
+
 $lang['auth_user'] = 'If authentication is required, put your user name here.';
 $lang['auth_pass'] = 'Password for the above user.';
 
