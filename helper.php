@@ -18,8 +18,9 @@ class helper_plugin_smtp extends Plugin
      */
     public static function getEHLO($ehlo = '')
     {
+        global $INPUT;
         if (empty($ehlo)) {
-            $ip = $_SERVER["SERVER_ADDR"] ?? '';
+            $ip = $INPUT->server->str('SERVER_ADDR');
             if (empty($ip)) {
                 return "localhost.localdomain";
             }
