@@ -86,7 +86,11 @@ class action_plugin_smtp extends ActionPlugin
                 $log[] = trim($line[1]);
             }
             $log = trim(implode("\n", $log));
-            msg('SMTP log:<br /><pre>' . hsc($log) . '</pre><b>Above may contain passwords - do not post online!</b>', -1);
+            msg(
+                'SMTP log:<br /><pre>' . hsc($log) .
+                '</pre><b>Above may contain passwords - do not post online!</b>',
+                -1
+            );
         }
 
         // finish event handling
