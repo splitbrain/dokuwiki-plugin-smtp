@@ -3,6 +3,7 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author peter <peter.glawischnig@gmail.com>
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Dominik Eckelmann <deckelmann@gmail.com>
  */
@@ -12,6 +13,7 @@ $lang['smtp_ssl']              = 'Welche Verschlüsslung wird bei der Kommunikat
 $lang['smtp_ssl_o_']           = 'Keine';
 $lang['smtp_ssl_o_ssl']        = 'SSL';
 $lang['smtp_ssl_o_tls']        = 'TLS';
+$lang['smtp_allow_insecure']   = 'Ungültige oder selbstsignierte Serverzertifikate akzeptieren? Aktivieren Sie dies nur, wenn Sie dem SMTP-Server trotz eines nicht vertrauenswürdigen Zertifikats vertrauen.';
 $lang['auth_user']             = 'Tragen Sie hier den Benutzernamen ein, falls eine Anmeldung am SMTP Server erforderlich ist.';
 $lang['auth_pass']             = 'Passwort für den obenstehenden Benutzer.';
 $lang['localdomain']           = 'Fügen Sie hier den Namen ein, welcher während des HELO Aufrufes von SMTP verwendet werden soll. Dies sollte der FQDN Ihres DokuWiki Webservers sein. Wenn das Feld leer gelassen wird, wird DokuWiki versuchen es selbst zu ermitteln.';
