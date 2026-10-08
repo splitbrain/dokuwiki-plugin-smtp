@@ -3,6 +3,7 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author Alexander <ChanSee89@Mail.RU>
  * @author Aleksandr Selivanov <alexgearbox@yandex.ru>
  * @author Artem Trutko <trutko@facebook.com>
  */
@@ -12,6 +13,7 @@ $lang['smtp_ssl']              = 'Какой тип шифрования исп�
 $lang['smtp_ssl_o_']           = 'ничего';
 $lang['smtp_ssl_o_ssl']        = 'SSL';
 $lang['smtp_ssl_o_tls']        = 'TLS';
+$lang['smtp_allow_insecure']   = 'Принимать недействительные или самоподписанные сертификаты сервера? Используйте данный параметр, только если Вы доверяете SMTP-серверу, невзирая на ненадёжный сертификат.';
 $lang['auth_user']             = 'Если требуется проверка подлинности, укажите своё имя пользователя здесь.';
 $lang['auth_pass']             = 'Пароль для указанного пользователя.';
 $lang['localdomain']           = 'Имя, которое будет использоваться во время фазы запрос helo протокола SMTP. Должно быть полное доменное имя веб-сервера «Докувики». Оставьте пустым для автоопределения.';
